@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>C# Console Emulator</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+    <!-- Xterm 4.19 -->
+    <script src="https://cdn.jsdelivr.net/npm/xterm@4.19.0/lib/xterm.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.19.0/css/xterm.css">
+
     <script type="text/javascript" src="./require.js"></script>
     <script type="text/javascript" src="./mono-config.js"></script>
     <script type="text/javascript" src="./uno-config.js"></script>
@@ -29,7 +36,7 @@ $(ADDITIONAL_HEAD)
             <span class="alert"></span>
         </div>
     </div>
-    <pre id="console"></pre>
+    <div id="terminal"></div>
     <!-- <input id="console-input" disabled> -->
     <noscript>
         <p>This application requires Javascript and WebAssembly to be enabled.</p>

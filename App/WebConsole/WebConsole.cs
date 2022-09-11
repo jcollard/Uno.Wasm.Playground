@@ -6,6 +6,10 @@ namespace CaptainCoder.WebConsole;
 public class WebConsole
 {
 
+    public WebConsole() 
+    {
+        Interop.Runtime.InvokeJS($"initWebConsole()", out int _);
+    }
     public static WebConsole Instance { get; } = new WebConsole();
 
     public TextWriter TextWriter { get; } = new WebConsoleTextWriter();
@@ -20,7 +24,12 @@ public class WebConsoleTextWriter : TextWriter
     public override void Write(char value)
     {
         Buffer.Enqueue(value);
-        Interop.Runtime.InvokeJS($"write(`{value}`)", out int exceptional_result);
+        Interop.Runtime.InvokeJS($"write(`{EncodeChar(value)}`)", out int exceptional_result);
+    }
+
+    public string EncodeChar(char ch) {
+        if (ch == '\n') return "\\n\\r";
+        return ch.ToString();
     }
 }
 
