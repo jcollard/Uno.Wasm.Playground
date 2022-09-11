@@ -15,15 +15,18 @@ function dequeueBuffer() {
     return inputBuffer.shift();
 }
 
-function unblockOnInput() {
+function unblockOnInput() { 
     console.debug("Unblocking on Input");
     isBlocking = false;
+    term.setOption('cursorBlink', false);
+    term.setOption('cursorStyle', null);
 }
 
 function blockOnInput() {
     if (isBlocking) return;
     console.debug("Blocking on Input");
     isBlocking = true;
+    term.setOption('cursorBlink', 'block');
 }
 
 function clear() {
@@ -32,7 +35,7 @@ function clear() {
 
 function initWebConsole() {
     console.debug("Initializing Terminal");
-    term = new Terminal( {cursorBlink: "block" });
+    term = new Terminal( );
     term.open(document.getElementById('terminal'));
     term.onKey(handleInput);
     term.parser
