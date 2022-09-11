@@ -1,10 +1,15 @@
 const inputBuffer = [];
 var isBlocking = false;
+var blockOutput = false;
 var term;
+var pauseWrite = false;
+var pauseBuffer = [];
 
 function write(data) {
+    if (pauseWrite) {
+        return;
+    }
     term.write(data);
-    // document.getElementById('console').innerText += data;
 }
 
 function isInputBufferEmpty() {
@@ -30,7 +35,9 @@ function blockOnInput() {
 }
 
 function clear() {
+    pauseWrite = true;
     term.clear();
+    pauseWrite = false;
 }
 
 function initWebConsole() {
@@ -38,7 +45,6 @@ function initWebConsole() {
     term = new Terminal( );
     term.open(document.getElementById('terminal'));
     term.onKey(handleInput);
-    term.parser
     console.debug("Initialized!");
 }
 

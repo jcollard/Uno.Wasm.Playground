@@ -5,14 +5,10 @@ namespace CaptainCoder.WebConsole;
 
 public class WebConsole
 {
-
-    public WebConsole() 
-    {
-        Interop.Runtime.InvokeJS($"initWebConsole()", out int _);
-    }
     public static WebConsole Instance { get; } = new WebConsole();
 
     public TextWriter TextWriter { get; } = new WebConsoleTextWriter();
+
     
 }
 
@@ -38,11 +34,18 @@ public class Thread
     public static async Task Sleep(int millis) => await Task.Delay(millis);
 }
 
-public class Console 
+public class Console : AbstractWebConsole
 {
     private static readonly Console Instance = new Console();
+
+    public static void InitWebConsole() {
+        Instance.Clear();
+        System.Console.WriteLine("Initializing Web Console");
+        System.Console.SetOut(CaptainCoder.WebConsole.WebConsole.Instance.TextWriter);
+        Interop.Runtime.InvokeJS($"initWebConsole()", out int _);        
+    }
     
-    private async Task<string?> _ReadLine() {
+    public override async Task<string?> ReadLine() {
          while(bool.Parse(Interop.Runtime.InvokeJS($"isInputBufferEmpty()", out int _)))
          {
             Interop.Runtime.InvokeJS($"blockOnInput()", out int _);
@@ -52,7 +55,9 @@ public class Console
         return Interop.Runtime.InvokeJS($"dequeueBuffer()", out int _);
     }
 
-    public static void Clear() => Interop.Runtime.InvokeJS($"clear()", out int _);
+    public override void Clear() {
+        Interop.Runtime.InvokeJS($"clear()", out int _);
+    }
 
-    public static async Task<string?> ReadLine() => (await Instance._ReadLine());
+    // public static async Task<string?> ReadLine() => (await Instance._ReadLine());
 }

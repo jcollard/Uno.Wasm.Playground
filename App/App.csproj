@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <MonoRuntimeDebuggerEnabled Condition="'$(Configuration)'=='Debug'">true</MonoRuntimeDebuggerEnabled>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)WasmScripts/WebConsole.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestProgram\TestProgram.csproj" />
   </ItemGroup>
   
 
