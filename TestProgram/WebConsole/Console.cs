@@ -3,335 +3,106 @@ using CaptainCoder.WebConsole;
 
 public static class Console
 {
-    public static bool IsInputRedirected => System.Console.IsInputRedirected;
+    public static AbstractWebConsole Delegate => AbstractWebConsole.Instance;
+    public static bool IsInputRedirected =>  Delegate.IsInputRedirected;
 
-    public static int BufferHeight { 
-        get {
-            System.Console.WriteLine("ERROR: BufferHeight is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: BufferHeight is not supported in WebConsole");  
-        }
-    }
-    public static int BufferWidth { 
-        get {
-            System.Console.WriteLine("ERROR: BufferWidth is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: BufferWidth is not supported in WebConsole");  
-        }
-    }
-
-    public static bool CapsLock {
-        get {
-            System.Console.WriteLine("ERROR: CursorLeft is not supported in WebConsole");  
-            return default;
-        }
-    }
-
-    public static int CursorLeft { 
-        get {
-            System.Console.WriteLine("ERROR: CursorLeft is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: CursorLeft is not supported in WebConsole");  
-        }
-    }
-    public static int CursorSize { 
-        get {
-            System.Console.WriteLine("ERROR: CursorSize is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: CursorSize is not supported in WebConsole");  
-        }
-    }
-    public static int CursorTop { 
-        get {
-            System.Console.WriteLine("ERROR: CursorTop is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: CursorTop is not supported in WebConsole");  
-        }
-    }
-    public static bool CursorVisible { 
-        get {
-            System.Console.WriteLine("ERROR: CursorVisible is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: CursorVisible is not supported in WebConsole");  
-        }
-    }
-
-    public static TextWriter Error => System.Console.Error;
-
-    public static ConsoleColor ForegroundColor { 
-        get {
-            System.Console.WriteLine("ERROR: ForegroundColor is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: ForegroundColor is not supported in WebConsole");  
-        }
-    }
-
-    public static TextReader In => System.Console.In;
-
-    public static Encoding InputEncoding { get => System.Console.InputEncoding; set => System.Console.InputEncoding = value; }
-
-    public static bool IsErrorRedirected => System.Console.IsErrorRedirected;
-
-    public static int WindowWidth { 
-        get {
-            System.Console.WriteLine("ERROR: WindowWidth is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: WindowWidth is not supported in WebConsole");  
-        }
-    }
-
-    public static bool IsOutputRedirected => System.Console.IsOutputRedirected;
-
-    public static bool KeyAvailable {
-        get {
-            System.Console.WriteLine("ERROR: KeyAvailable is not supported in WebConsole");  
-            return default;
-        }
-    }
-
-    public static int LargestWindowHeight {
-        get {
-            System.Console.WriteLine("ERROR: LargestWindowHeight is not supported in WebConsole");  
-            return default;
-        }
-    }
-
-    public static int LargestWindowWidth {
-        get {
-            System.Console.WriteLine("ERROR: LargestWindowWidth is not supported in WebConsole");  
-            return default;
-        }
-    }
-
-    public static bool NumberLock {
-        get {
-            System.Console.WriteLine("ERROR: NumberLock is not supported in WebConsole");  
-            return default;
-        }
-    }
-    public static TextWriter Out => System.Console.Out;
-
-    public static Encoding OutputEncoding { get => System.Console.OutputEncoding; set => System.Console.OutputEncoding = value; }
-    public static string Title { 
-        get {
-            System.Console.WriteLine("ERROR: Title is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: Title is not supported in WebConsole");  
-        }
-    }
-    public static bool TreatControlCAsInput { 
-        get {
-            System.Console.WriteLine("ERROR: TreatControlCAsInput is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: TreatControlCAsInput is not supported in WebConsole");  
-        }
-    }
-    public static int WindowHeight { 
-        get {
-            System.Console.WriteLine("ERROR: WindowHeight is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: WindowHeight is not supported in WebConsole");  
-        }
-    }
-    public static int WindowLeft { 
-        get {
-            System.Console.WriteLine("ERROR: WindowLeft is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: WindowLeft is not supported in WebConsole");  
-        }
-    }
-    public static int WindowTop { 
-        get {
-            System.Console.WriteLine("ERROR: WindowTop is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: WindowTop is not supported in WebConsole");  
-        }
-    }
-    public static ConsoleColor BackgroundColor { 
-        get {
-            System.Console.WriteLine("ERROR: BackgroundColor is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: BackgroundColor is not supported in WebConsole");  
-        }
-    }
-
-    public static event ConsoleCancelEventHandler? CancelKeyPress;
-
-    public static void Beep() => System.Console.WriteLine("ERROR: Beep is not supported in WebConsole"); 
-
-    public static void Beep(int frequency, int duration) => System.Console.WriteLine("ERROR: Beep is not supported in WebConsole"); 
-
-    public static void Clear()
-    {
-        AbstractWebConsole.Instance.Clear();
-    }
-
-    public static (int Left, int Top) GetCursorPosition()
-    {
-        System.Console.WriteLine("ERROR: GetCursorPosition is not supported in WebConsole"); 
-        return default;
-    }
-
+    public static int BufferHeight { get => Delegate.BufferHeight; set => Delegate.BufferHeight = value; }
+    public static int BufferWidth { get => Delegate.BufferWidth; set => Delegate.BufferWidth = value; }
+    public static bool CapsLock  => Delegate.CapsLock;
+    public static int CursorLeft { get => Delegate.CursorLeft; set => Delegate.CursorLeft = value; }
+    public static int CursorSize { get => Delegate.CursorSize; set => Delegate.CursorSize = value; }
+    public static int CursorTop { get => Delegate.CursorTop; set => Delegate.CursorTop = value; }
+    public static bool CursorVisible { get => Delegate.CursorVisible; set => Delegate.CursorVisible = value; }
+    public static TextWriter Error => Delegate.Error;
+    public static ConsoleColor ForegroundColor { get => Delegate.ForegroundColor; set => Delegate.ForegroundColor = value; }
+    public static TextReader In => Delegate.In;
+    public static Encoding InputEncoding { get => Delegate.InputEncoding; set => Delegate.InputEncoding = value; }
+    public static bool IsErrorRedirected => Delegate.IsErrorRedirected;
+    public static int WindowWidth { get => Delegate.WindowWidth; set => Delegate.WindowWidth = value; }
+    public static bool IsOutputRedirected => Delegate.IsOutputRedirected;
+    public static bool KeyAvailable => Delegate.KeyAvailable;
+    public static int LargestWindowHeight => Delegate.LargestWindowHeight;
+    public static int LargestWindowWidth => Delegate.LargestWindowWidth;
+    public static bool NumberLock => Delegate.NumberLock;
+    public static TextWriter Out => Delegate.Out;
+    public static Encoding OutputEncoding { get => Delegate.OutputEncoding; set => Delegate.OutputEncoding = value; }
+    public static string Title { get => Delegate.Title; set => Delegate.Title = value; }
+    public static bool TreatControlCAsInput { get => Delegate.TreatControlCAsInput; set => Delegate.TreatControlCAsInput = value; }
+    public static int WindowHeight { get => Delegate.WindowHeight; set => Delegate.WindowHeight = value; }
+    public static int WindowLeft { get => Delegate.WindowLeft; set => Delegate.WindowLeft = value; }
+    public static int WindowTop { get => Delegate.WindowTop; set => Delegate.WindowTop = value; }
+    public static ConsoleColor BackgroundColor { get => Delegate.BackgroundColor; set => Delegate.BackgroundColor = value; }
+    public static void Beep() => Delegate.Beep();
+    public static void Beep(int frequency, int duration) => Delegate.Beep(frequency, duration);
+    public static void Clear() => Delegate.Clear();
+    public static (int Left, int Top) GetCursorPosition() => Delegate.GetCursorPosition();
     public static void MoveBufferArea(int sourceLeft, int sourceTop, int sourceWidth, int sourceHeight, int targetLeft, int targetTop, char sourceChar, ConsoleColor sourceForeColor, ConsoleColor sourceBackColor)
     {
-        System.Console.WriteLine("ERROR: MoveBufferArea is not supported in WebConsole"); 
+        Delegate.MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop, sourceChar, sourceForeColor, sourceBackColor);
     }
-
     public static void MoveBufferArea(int sourceLeft, int sourceTop, int sourceWidth, int sourceHeight, int targetLeft, int targetTop)
     {
-        System.Console.WriteLine("ERROR: MoveBufferArea is not supported in WebConsole"); 
+        Delegate.MoveBufferArea(sourceLeft, sourceTop, sourceWidth, sourceHeight, targetLeft, targetTop);
     }
-
-    public static Stream OpenStandardError(int bufferSize) => System.Console.OpenStandardError(bufferSize);
-
-    public static Stream OpenStandardError() => System.Console.OpenStandardError();
-
-    public static Stream OpenStandardInput(int bufferSize) => System.Console.OpenStandardInput(bufferSize);
-
-    public static Stream OpenStandardInput() => System.Console.OpenStandardInput();
-
-    public static Stream OpenStandardOutput(int bufferSize) => System.Console.OpenStandardOutput(bufferSize);
-
-    public static Stream OpenStandardOutput() => System.Console.OpenStandardOutput();
-
-    public static int Read()
-    { 
-        System.Console.WriteLine("ERROR: Read is not supported in WebConsole"); 
-        return default; 
-    }
-
-    public static ConsoleKeyInfo ReadKey(bool intercept)
-    { 
-        System.Console.WriteLine("ERROR: ReadKey is not supported in WebConsole"); 
-        return default; 
-    }
-
-    public static ConsoleKeyInfo ReadKey() { 
-        System.Console.WriteLine("ERROR: ReadKey is not supported in WebConsole"); 
-        return default; 
-    }
-
-    public static async Task<string?> ReadLine() {
-        return await AbstractWebConsole.Instance.ReadLine();
-    }
-
-
-    public static void ResetColor() => System.Console.WriteLine("ERROR: ResetColor is not supported in WebConsole");
-
-
-    public static void SetBufferSize(int width, int height) => System.Console.WriteLine("ERROR: SetBufferSize is not supported in WebConsole");
-
-
-    public static void SetCursorPosition(int left, int top) => System.Console.WriteLine("ERROR: SetCursorPosition is not supported in WebConsole");
-
-    public static void SetError(TextWriter newError) => System.Console.SetError(newError);
-    public static void SetIn(TextReader newIn) => System.Console.WriteLine("ERROR: SetIn is not supported in WebConsole");
-
-    public static void SetOut(TextWriter newOut) => System.Console.SetOut(newOut);
-
-    public static void SetWindowPosition(int left, int top) => System.Console.WriteLine("ERROR: SetWindowPosition is not supported in WebConsole");
-
-    public static void SetWindowSize(int width, int height) => System.Console.WriteLine("ERROR: SetWindowSize is not supported in WebConsole");
-
-    public static void Write(ulong value) => System.Console.Write(value);
-
-    public static void Write(bool value) => System.Console.Write(value);
-
-    public static void Write(char value) => System.Console.Write(value);
-
-    public static void Write(char[]? buffer) => System.Console.Write(buffer);
-
-    public static void Write(int value) => System.Console.Write(value);
-
-    public static void Write(decimal value) => System.Console.Write(value);
-
-    public static void Write(long value) => System.Console.Write(value);
-
-    public static void Write(object? value) => System.Console.Write(value);
-
-    public static void Write(float value) => System.Console.Write(value);
-
-    public static void Write(string? value) => System.Console.Write(value);
-
-    public static void Write(string format, object? arg0) => System.Console.Write(format, arg0);
-
-    public static void Write(string format, object? arg0, object? arg1) => System.Console.Write(format, arg0, arg1);
-
-    public static void Write(string format, object? arg0, object? arg1, object? arg2) => System.Console.Write(format, arg0, arg1, arg2);
-
-    public static void Write(string format, params object?[]? arg) => System.Console.Write(format, arg);
-
-    public static void Write(uint value) => System.Console.Write(value);
-
-    public static void Write(char[] buffer, int index, int count) => System.Console.Write(buffer, index, count);
-
-    public static void Write(double value) => System.Console.Write(value);
-
-    public static void WriteLine(uint value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(string format, params object?[]? arg) => System.Console.WriteLine(format, arg);
-    public static void WriteLine() => System.Console.WriteLine();
-
-    public static void WriteLine(bool value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(char[]? buffer) => System.Console.WriteLine(buffer);
-    public static void WriteLine(char[] buffer, int index, int count) => System.Console.WriteLine(buffer, index, count);
-
-    public static void WriteLine(decimal value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(double value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(ulong value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(int value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(object? value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(float value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(string? value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(string format, object? arg0) => System.Console.WriteLine(format, arg0);
-
-    public static void WriteLine(string format, object? arg0, object? arg1) => System.Console.WriteLine(format, arg0, arg1);
-
-    public static void WriteLine(string format, object? arg0, object? arg1, object? arg2) => System.Console.WriteLine(format, arg0, arg1, arg2);
-    public static void WriteLine(long value) => System.Console.WriteLine(value);
-
-    public static void WriteLine(char value) => System.Console.WriteLine(value);
-}
-
-public class NotAvailableInWebException : Exception
-{
-    public NotAvailableInWebException(string? message) : base(message)
-    {
+    public static Stream OpenStandardError(int bufferSize) =>  Delegate.OpenStandardError(bufferSize);
+    public static Stream OpenStandardError() =>  Delegate.OpenStandardError();
+    public static Stream OpenStandardInput(int bufferSize) =>  Delegate.OpenStandardInput(bufferSize);
+    public static Stream OpenStandardInput() =>  Delegate.OpenStandardInput();
+    public static Stream OpenStandardOutput(int bufferSize) =>  Delegate.OpenStandardOutput(bufferSize);
+    public static Stream OpenStandardOutput() =>  Delegate.OpenStandardOutput();
+    public static async Task<int> Read() => await Delegate.Read();
+    public static async Task<ConsoleKeyInfo> ReadKey(bool intercept) => await Delegate.ReadKey(intercept);
+    public static async Task<ConsoleKeyInfo> ReadKey() => await Delegate.ReadKey();
+    public static async Task<string?> ReadLine() => await Delegate.ReadLine();
+    public static void ResetColor() =>  Delegate.ResetColor();
+    public static void SetBufferSize(int width, int height) =>  Delegate.SetBufferSize(width, height);
+    public static void SetCursorPosition(int left, int top) =>  Delegate.SetCursorPosition(left, top);
+    public static void SetError(TextWriter newError) =>  Delegate.SetError(newError);
+    public static void SetIn(TextReader newIn) =>  Delegate.SetIn(newIn);
+    public static void SetOut(TextWriter newOut) =>  Delegate.SetOut(newOut);
+    public static void SetWindowPosition(int left, int top) =>  Delegate.SetWindowPosition(left, top);
+    public static void SetWindowSize(int width, int height) =>  Delegate.SetWindowSize(width, height);
+    public static void Write(ulong value) =>  Delegate.Write(value);
+    public static void Write(bool value) =>  Delegate.Write(value);
+    public static void Write(char value) =>  Delegate.Write(value);
+    public static void Write(char[]? buffer) =>  Delegate.Write(buffer);
+    public static void Write(int value) =>  Delegate.Write(value);
+    public static void Write(decimal value) =>  Delegate.Write(value);
+    public static void Write(long value) =>  Delegate.Write(value);
+    public static void Write(object? value) =>  Delegate.Write(value);
+    public static void Write(float value) =>  Delegate.Write(value);
+    public static void Write(string? value) =>  Delegate.Write(value);
+    public static void Write(string format, object? arg0) =>  Delegate.Write(format, arg0);
+    public static void Write(string format, object? arg0, object? arg1) =>  Delegate.Write(format, arg0, arg1);
+    public static void Write(string format, object? arg0, object? arg1, object? arg2) =>  Delegate.Write(format, arg0, arg1, arg2);
+    public static void Write(string format, params object?[]? arg) =>  Delegate.Write(format, arg);
+    public static void Write(uint value) =>  Delegate.Write(value);
+    public static void Write(char[] buffer, int index, int count) =>  Delegate.Write(buffer, index, count);
+    public static void Write(double value) =>  Delegate.Write(value);
+    public static void WriteLine(uint value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(string format, params object?[]? arg) =>  Delegate.WriteLine(format, arg);
+    public static void WriteLine() =>  Delegate.WriteLine();
+    public static void WriteLine(bool value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(char[]? buffer) =>  Delegate.WriteLine(buffer);
+    public static void WriteLine(char[] buffer, int index, int count) =>  Delegate.WriteLine(buffer, index, count);
+    public static void WriteLine(decimal value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(double value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(ulong value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(int value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(object? value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(float value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(string? value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(string format, object? arg0) =>  Delegate.WriteLine(format, arg0);
+    public static void WriteLine(string format, object? arg0, object? arg1) =>  Delegate.WriteLine(format, arg0, arg1);
+    public static void WriteLine(string format, object? arg0, object? arg1, object? arg2) =>  Delegate.WriteLine(format, arg0, arg1, arg2);
+    public static void WriteLine(long value) =>  Delegate.WriteLine(value);
+    public static void WriteLine(char value) =>  Delegate.WriteLine(value);
+    public static event ConsoleCancelEventHandler? CancelKeyPress {
+        add {
+            Delegate.CancelKeyPress += value;
+        }
+        remove {
+            Delegate.CancelKeyPress -= value;
+        }
     }
 }
