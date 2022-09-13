@@ -2,8 +2,10 @@
 {
     public static void Main() {
         // See https://aka.ms/new-console-template for more information
-        CaptainCoder.WebConsole.WebConsole.InitWebConsole();
-        Execute();
+        CaptainCoder.WebConsole.WebConsole.InitWebConsole().ContinueWith(_ => {
+            Execute();
+        });
+        
     }
 
 

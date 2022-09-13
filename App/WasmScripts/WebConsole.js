@@ -1,4 +1,5 @@
 const inputBuffer = [];
+var isLoaded = false;
 var isBlocking = false;
 var blockOutput = false;
 var term;
@@ -9,7 +10,7 @@ function write(data) {
     if (pauseWrite) {
         return;
     }
-    term.write(data);
+    term.io.print(data);
 }
 
 function isInputBufferEmpty() {
@@ -22,54 +23,117 @@ function dequeueBuffer() {
 
 function unblockOnInput() { 
     console.debug("Unblocking on Input");
+    term.setCursorVisible(false);
     isBlocking = false;
-    term.setOption('cursorBlink', false);
-    term.setOption('cursorStyle', null);
 }
 
 function blockOnInput() {
     if (isBlocking) return;
     console.debug("Blocking on Input");
+    term.setCursorVisible(true);
     isBlocking = true;
-    term.setOption('cursorBlink', 'block');
 }
 
 function clear() {
     pauseWrite = true;
-    term.clear();
+    term.clearHome();
     pauseWrite = false;
 }
 
-function initWebConsole() {
-    console.debug("Initializing Terminal");
-    term = new Terminal( );
-    term.open(document.getElementById('terminal'));
-    term.onKey(handleInput);
-    console.debug("Initialized!");
+function isReady() {
+    return isLoaded;
 }
 
+async function initWebConsole() {
+    isLoaded = false;
+    await lib.init();
+    setupHterm();
+}
+
+function setupHterm() {
+    console.debug("Setting up hterm");
+    term = new hterm.Terminal();
+    term.onTerminalReady = onTerminalReady;
+    term.decorate(document.getElementById('terminal'));
+    term.installKeyboard();
+    isLoaded = true;
+}
+
+function onTerminalReady() {
+    const io = term.io.push();
+    
+    term.setCursorVisible(false);
+    term.setCursorBlink(true);
+    term.keyboard.backspaceSendsBackspace = true;
+
+    io.onVTKeystroke = onVTKeystroke;
+    io.sendString = sendString;
+    io.onTerminalResize = onTerminalResize;
+    console.debug("hterm is ready.");
+}
 
 var inputCharBuffer = [];
 
-function handleInput(keyData) {
+function onVTKeystroke(str) {
     if (!isBlocking) return;
     
-    if (keyData.domEvent.key === 'Backspace') {
+    // Debug Information
+    console.debug(`onVTKeyStroke: ${str}`);
+    const codes = [];
+    for(let ch of str) {
+        codes.push(ch.charCodeAt(0));
+    }
+    console.debug(` - Char Code: ${codes}`);
+    
+    const keyCode = getKeyCode(codes);
+    
+    if (keyCode === 'Backspace') {
         if (inputCharBuffer.length > 0) {
-            term.write('\x1b[D \x1b[D');
+            // TODO: Check for backspace on tab
+            term.io.print('\x1b[D \x1b[D');
             inputCharBuffer.pop();
         }
         return;
     }
-    if (keyData.key.length > 1) return;
 
-    term.write(keyData.key)
+    
 
-    if (keyData.domEvent.key === 'Enter') {
+    if (keyCode === 'Enter') {
         inputBuffer.push(inputCharBuffer.join(""));
         inputCharBuffer = [];
-        term.write("\n");
+        term.io.print("\n");
         return;
     }
-    inputCharBuffer.push(keyData.key);
+
+    // TODO: Control / Alt / Esc
+    // Only allow strings of length 1 to be written? Maybe
+    // should check that the string is a character that can be displayed?
+    if (codes.length > 1 || codes[0] < 32) return;
+
+    term.io.print(str)
+    inputCharBuffer.push(str);
+}
+
+function sendString(str) {
+    console.debug(`sendString: ${str}`);
+}
+
+function onTerminalResize(columns, rows) {
+    console.debug(`onTerminalResize: (${columns}, ${rows})`);
+}
+
+const keyCodes = {
+    [8]: 'Backspace',
+    [9]: 'Tab',
+    [13]: 'Enter',
+    [27]: 'Escape',
+    
+};
+
+function getKeyCode(codes) {
+    if (keyCodes[codes] === undefined) {
+        console.debug(`Unknown key codes: ${codes}`);
+        return undefined;
+    }
+    return keyCodes[codes];
 }

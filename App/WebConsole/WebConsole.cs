@@ -12,14 +12,25 @@ public class Thread
 public class WebConsole : AbstractWebConsole
 {
     
-    private static readonly WebConsole Instance = new WebConsole();
+    private static new readonly WebConsole Instance = new ();
     public TextWriter TextWriter { get; } = new WebConsoleTextWriter();
 
-    public static void InitWebConsole() {
-        Instance.Clear();
-        System.Console.WriteLine("Initializing Web Console");
+    public static async Task InitWebConsole() {
+        Debug("Initializing Web Console");
+        string result = Interop.Runtime.InvokeJS($"initWebConsole()", out int _);
+        static bool isReady() => bool.Parse(Interop.Runtime.InvokeJS("isReady()", out int _));
+        while (!isReady()) {
+            Debug("Waiting for Terminal to be ready.");
+            await Task.Delay(25);            
+        } 
         System.Console.SetOut(Instance.TextWriter);
-        Interop.Runtime.InvokeJS($"initWebConsole()", out int _);        
+        Console.WriteLine("Done!");
+    }
+
+    private static void Debug(string message) {
+        var ts = DateTime.Now;
+        message = $"Debug({ts.ToShortDateString()}@{ts.ToShortTimeString()}): {message}";
+        Interop.Runtime.InvokeJS($"console.debug(\"{message}\")", out int _);
     }
     
     public override async Task<string?> ReadLine() {
@@ -103,13 +114,52 @@ public class WebConsole : AbstractWebConsole
 
     public override TextWriter Error => System.Console.Error;
 
+    private static readonly ConsoleColor DefaultForegroundColor = ConsoleColor.White;
+    private static readonly ConsoleColor DefaultBackgroundColor = ConsoleColor.Black;
+    private ConsoleColor _foregroundColor = DefaultForegroundColor;
+    private ConsoleColor _backgroundcolor = DefaultBackgroundColor;
     public override ConsoleColor ForegroundColor { 
-        get {
-            System.Console.WriteLine("ERROR: ForegroundColor is not supported in WebConsole");  
-            return default;
-        }
+        get => _foregroundColor;
         set {
-            System.Console.WriteLine("ERROR: ForegroundColor is not supported in WebConsole");  
+            string code = GetColorCode(value);
+            _foregroundColor = value;
+            // System.Console.WriteLine($"\\x1b[1;31m");
+            //\\x1b\xa;[X11 color spec]\a
+            System.Console.Write($"\\\x1b[38;2;{code}m");
+        }
+    }
+
+    private static string GetColorCode(ConsoleColor color) {
+        return color switch {
+                ConsoleColor.Black => "0;0;0",
+                ConsoleColor.Blue => "0;0;255",
+                ConsoleColor.Cyan => "0;255;255",
+                ConsoleColor.Gray => "200;200;200",
+                ConsoleColor.Green => "0;255;0",
+                ConsoleColor.Magenta => "255;0;255",
+                ConsoleColor.Red => "255;0;0",
+                ConsoleColor.Yellow => "255;255;0",
+
+                ConsoleColor.DarkBlue => "0;0;200",
+                ConsoleColor.DarkCyan => "0;200;200",
+                ConsoleColor.DarkGray => "105;105;105",
+                ConsoleColor.DarkGreen => "0;200;0",
+                ConsoleColor.DarkMagenta => "200;0;200",
+                ConsoleColor.DarkRed => "200;0;0",
+                ConsoleColor.DarkYellow => "200;200;0",
+
+                ConsoleColor.White => "255;255;255",
+                _ => "30"
+            };
+    }
+
+    public override ConsoleColor BackgroundColor { 
+        get => _backgroundcolor;
+        set {
+            string code = GetColorCode(value);
+            _backgroundcolor = value;
+            System.Console.Write($"\\x1b[48;2;{code}m");
+
         }
     }
 
@@ -164,7 +214,7 @@ public class WebConsole : AbstractWebConsole
     public override string Title { 
         get {
             System.Console.WriteLine("ERROR: Title is not supported in WebConsole");  
-            return default;
+            return string.Empty;
         }
         set {
             System.Console.WriteLine("ERROR: Title is not supported in WebConsole");  
@@ -206,15 +256,7 @@ public class WebConsole : AbstractWebConsole
             System.Console.WriteLine("ERROR: WindowTop is not supported in WebConsole");  
         }
     }
-    public override ConsoleColor BackgroundColor { 
-        get {
-            System.Console.WriteLine("ERROR: BackgroundColor is not supported in WebConsole");  
-            return default;
-        }
-        set {
-            System.Console.WriteLine("ERROR: BackgroundColor is not supported in WebConsole");  
-        }
-    }
+
 
     public override event ConsoleCancelEventHandler? CancelKeyPress;
 
@@ -253,21 +295,27 @@ public class WebConsole : AbstractWebConsole
     public override async Task<int> Read()
     { 
         System.Console.WriteLine("ERROR: Read is not supported in WebConsole"); 
+        await Task.Delay(0);
         return default; 
     }
 
     public override async Task<ConsoleKeyInfo> ReadKey(bool intercept)
     { 
         System.Console.WriteLine("ERROR: ReadKey is not supported in WebConsole"); 
+        await Task.Delay(0);
         return default; 
     }
 
     public override async Task<ConsoleKeyInfo> ReadKey() { 
         System.Console.WriteLine("ERROR: ReadKey is not supported in WebConsole"); 
+        await Task.Delay(0);
         return default; 
     }
 
-    public override void ResetColor() => System.Console.WriteLine("ERROR: ResetColor is not supported in WebConsole");
+    public override void ResetColor() {
+        Console.ForegroundColor = DefaultForegroundColor;
+        Console.BackgroundColor = DefaultBackgroundColor;
+    }
 
 
     public override void SetBufferSize(int width, int height) => System.Console.WriteLine("ERROR: SetBufferSize is not supported in WebConsole");
@@ -355,17 +403,36 @@ public class WebConsole : AbstractWebConsole
 
 public class WebConsoleTextWriter : TextWriter
 {
-    public Queue<char> Buffer { get; } = new ();
     public override Encoding Encoding => Encoding.Default;
 
     public override void Write(char value)
     {
-        Buffer.Enqueue(value);
         Interop.Runtime.InvokeJS($"write(`{EncodeChar(value)}`)", out int exceptional_result);
     }
 
-    public string EncodeChar(char ch) {
+    public override void Write(string? s) {
+        Interop.Runtime.InvokeJS($"write(`{EncodeString(s)}`)", out int exceptional_result);
+    }
+
+    public override void WriteLine(string? s) {
+        Interop.Runtime.InvokeJS($"write(`{EncodeString(s)}{EncodeChar('\n')}`)", out int exceptional_result);
+    }
+
+    public override void WriteLine() {
+        Interop.Runtime.InvokeJS($"write(`{EncodeChar('\n')}`)", out int exceptional_result);
+    }
+
+    private string EncodeChar(char ch) {
         if (ch == '\n') return "\\n\\r";
         return ch.ToString();
+    }
+    private string EncodeString(string? s) {
+        if (s == null) return string.Empty;
+        StringBuilder sb = new StringBuilder();
+        foreach(char ch in s)
+        {
+            sb.Append(EncodeChar(ch));
+        }
+        return sb.ToString();
     }
 }

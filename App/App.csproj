@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)WasmScripts/WebConsole.js" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)WasmScripts/hterm_all.js" />
   </ItemGroup>
 
   <ItemGroup>
