@@ -24,7 +24,7 @@ public class WebConsole : AbstractWebConsole
             await Task.Delay(25);            
         } 
         System.Console.SetOut(Instance.TextWriter);
-        Console.WriteLine("Done!");
+        Debug("InitWebConsole() Finished.");
     }
 
     private static void Debug(string message) {
