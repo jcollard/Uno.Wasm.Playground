@@ -5,122 +5,122 @@ Console.WriteLine("This is a bio folder writer. ");
 //get input
 string name;
 Console.WriteLine("Please enter your name: ");
-name = Console.ReadLine();
+name = (await Console.ReadLine());
 
 Console.Clear();
 
 Console.WriteLine("Creating file");
 Console.WriteLine("////////////");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("||//////////");
-Thread.Sleep(800);
+await WebThread.Sleep(800);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("|||||///////");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("||||||//////");
-Thread.Sleep(80);
+await WebThread.Sleep(80);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("|||||||/////");
-Thread.Sleep(20);
+await WebThread.Sleep(20);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("||||||||////");
-Thread.Sleep(30);
+await WebThread.Sleep(30);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("|||||||||///");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Creating file");
 Console.WriteLine("||||||||||||");
-Thread.Sleep(600);
+await WebThread.Sleep(600);
 Console.Clear();
 Console.WriteLine("Successfully Created File!");
-Thread.Sleep(700);
+await WebThread.Sleep(700);
 Console.Clear();
 
 //-----------------------------------------------
 string age;
 Console.WriteLine(name + "'s Bio Folder: ");
 Console.WriteLine("Age: ");
-age = Console.ReadLine();
+age = (await Console.ReadLine());
 Console.Clear();
 
 string bornage;
 Console.WriteLine(name + "'s Bio Folder: ");
 Console.WriteLine("Birthdate(Enter in this format: month/day/year): ");
-bornage = Console.ReadLine();
+bornage = (await Console.ReadLine());
 Console.Clear();
 
 string height;
 Console.WriteLine(name + "'s Bio Folder: ");
 Console.WriteLine("Height: ");
-height = Console.ReadLine();
+height = (await Console.ReadLine());
 Console.Clear();
 
 string gender;
 Console.WriteLine(name + "'s Bio Folder: ");
 Console.WriteLine("Gender(If you feel uncomfortable just leave this blank): ");
-gender = Console.ReadLine();
+gender = (await Console.ReadLine());
 Console.Clear();
 
 string shortbio;
 Console.WriteLine(name + "'s Bio Folder: ");
 Console.WriteLine("Write a small description about yourself: ");
-shortbio = Console.ReadLine();
+shortbio = (await Console.ReadLine());
 Console.Clear();
 
 string input;
 Console.WriteLine("Press enter to display Bio Card");
-input = Console.ReadLine();
+input = (await Console.ReadLine());
 Console.Clear();
 
 //-----------------------------------------------
 
 Console.WriteLine("Getting Inputs");
 Console.WriteLine("////////////");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Compressing Inputs");
 Console.WriteLine("|///////////");
-Thread.Sleep(800);
+await WebThread.Sleep(800);
 Console.Clear();
 Console.WriteLine("Starting secret Hyperdrive");
 Console.WriteLine("||||||//////");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Starting secret Hyperdrive");
 Console.WriteLine("|||||||/////");
-Thread.Sleep(80);
+await WebThread.Sleep(80);
 Console.Clear();
 Console.WriteLine("Running secret Hyperdrive");
 Console.WriteLine("|||||||||///");
-Thread.Sleep(20);
+await WebThread.Sleep(20);
 Console.Clear();
 Console.WriteLine("Running secret Hyperdrive");
 Console.WriteLine("||||||||||//");
-Thread.Sleep(30);
+await WebThread.Sleep(30);
 Console.Clear();
 Console.WriteLine("Exporting modules");
 Console.WriteLine("||||||||||//");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Creating Bio");
 Console.WriteLine("||||||||||||");
-Thread.Sleep(600);
+await WebThread.Sleep(600);
 Console.Clear();
 Console.WriteLine("Creating Bio");
 Console.WriteLine("||||||||||||");
-Thread.Sleep(200);
+await WebThread.Sleep(200);
 Console.Clear();
 Console.WriteLine("Successfully created Card!");
-Thread.Sleep(700);
+await WebThread.Sleep(700);
 Console.Clear();
 
 Console.WriteLine("Name: [" + name + "]");
@@ -145,7 +145,7 @@ Console.WriteLine(shortbio);
 
 // string input2;
 // Console.WriteLine("Press enter to copy Bio card to clipboard");
-// input2 = Console.ReadLine();
+// input2 = (await Console.ReadLine());
 // Console.Clear();
 
 // Clipboard.SetText(biocard.Text);
