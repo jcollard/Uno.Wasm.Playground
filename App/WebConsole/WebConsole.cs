@@ -27,7 +27,7 @@ public class WebConsole : AbstractWebConsole
         Debug("InitWebConsole() Finished.");
     }
 
-    private static void Debug(string message) {
+    public static void Debug(string message) {
         var ts = DateTime.Now;
         message = $"Debug({ts.ToShortDateString()}@{ts.ToShortTimeString()}): {message}";
         Interop.Runtime.InvokeJS($"console.debug(\"{message}\")", out int _);
@@ -410,13 +410,11 @@ public class WebConsoleTextWriter : TextWriter
         Interop.Runtime.InvokeJS($"write(`{EncodeChar(value)}`)", out int exceptional_result);
     }
 
-    public override void Write(string? s) {
-        Interop.Runtime.InvokeJS($"write(`{EncodeString(s)}`)", out int exceptional_result);
-    }
+    public override void Write(string? s) => _write(s ?? string.Empty);
 
-    public override void WriteLine(string? s) {
-        Interop.Runtime.InvokeJS($"write(`{EncodeString(s)}{EncodeChar('\n')}`)", out int exceptional_result);
-    }
+    public override void WriteLine(string? s) => Write(s + "\n");
+
+    private void _write(string s) => Interop.Runtime.InvokeJS($"write(`{EncodeString(s ?? string.Empty)}`)", out int exceptional_result);
 
     public override void WriteLine() {
         Interop.Runtime.InvokeJS($"write(`{EncodeChar('\n')}`)", out int exceptional_result);
@@ -424,9 +422,14 @@ public class WebConsoleTextWriter : TextWriter
 
     private string EncodeChar(char ch) {
         if (ch == '\n') return "\\n\\r";
+        if (ch == '\r') return string.Empty;
+        if (ch == '`') return "\\`";
+        if (ch == '\\') return "\\\\";
+        if (ch == '$') return "\\$";
         return ch.ToString();
     }
     private string EncodeString(string? s) {
+        WebConsole.Debug($"Encoding: {s.Length}");
         if (s == null) return string.Empty;
         StringBuilder sb = new StringBuilder();
         foreach(char ch in s)

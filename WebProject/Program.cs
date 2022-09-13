@@ -130,24 +130,3 @@ Console.WriteLine("Height: [" + height + "]");
 Console.WriteLine("Gender: [" + gender + "]");
 Console.WriteLine("Short Biography:");
 Console.WriteLine(shortbio);
-
-
-
-
-// string inputname = " Name: [" + name + "]";
-// string inputage = " Age: [" + age + "]";
-// string inputbornage = " Date of Birth: [" + bornage + "]";
-// string inputheight = " Height: [" + height + "]";
-// string inputgender = " Gender: [" + gender + "]";
-// string inputbio = " Short Biography:" + shortbio;
-
-// string biocard = inputname + inputage + inputbornage + inputheight + inputgender + inputbio;
-
-// string input2;
-// Console.WriteLine("Press enter to copy Bio card to clipboard");
-// input2 = (await Console.ReadLine());
-// Console.Clear();
-
-// Clipboard.SetText(biocard.Text);
-
-// Console.WriteLine("Text copied!");

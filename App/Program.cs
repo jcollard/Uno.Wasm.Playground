@@ -9,8 +9,9 @@
     }
 
 
-    private static void Execute() {
+    private async static void Execute() {
         try {
+            // await CaptainCoder.WebConsole.IntroScreen.DisplayIntroScreen();
             Program.Run();
         } catch (Exception e) {
             Console.WriteLine("The program was unable to launch.");
